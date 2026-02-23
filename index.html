@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Birthday Lotus</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    background:linear-gradient(to top,#ffb6d9,#ffe6f2);
+}
+
+/* ================= FLOWERS ================= */
+
+.lotus{
+    position:absolute;
+    transform:scale(0);
+    opacity:0;
+    animation:bloom 2.5s ease forwards;
+    mix-blend-mode:multiply;
+}
+
+@keyframes bloom{
+    0%{ transform:scale(0.2); opacity:0; }
+    100%{ transform:scale(1); opacity:1; }
+}
+
+/* Fade out animation */
+.fadeOut{
+    animation:fadeAway 1.5s forwards;
+}
+
+@keyframes fadeAway{
+    to{ opacity:0; transform:scale(0.8); }
+}
+
+/* ================= BUTTON ================= */
+
+#enterBtn{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:18px 45px;
+    font-size:20px;
+    font-weight:bold;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(45deg,#ff4fa3,#ff82c7);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(255,0,128,0.4);
+    z-index:9999;
+}
+
+/* ================= VINES ================= */
+
+.vine{
+    position:absolute;
+    bottom:-400px;
+    opacity:0;
+}
+
+@keyframes riseUp{
+    from{ bottom:-400px; opacity:0; }
+    to{ bottom:0px; opacity:1; }
+}
+
+/* ================= FINAL TEXT ================= */
+
+#finalText{
+    position:fixed;
+    top:35%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:48px;
+    font-weight:bold;
+    color:white;
+    text-shadow:0 5px 20px rgba(0,0,0,0.25);
+    opacity:0;
+    transition:opacity 2s ease;
+    z-index:9999;
+}
+</style>
+</head>
+
+<body>
+
+<button id="enterBtn">CLICK HERE 😋</button>
+<div id="finalText">Happy Birthday SHARANNYA </div>
+
+<script>
+
+/* ================= RANDOM FLOWERS ================= */
+
+const flowerImages = [
+    "pink.png",
+    "white.png",
+    "flower1.png",
+    "flower2.png",
+    "flower3.png"
+];
+
+const flowerCount = 40;
+const placed = [];
+
+function isOverlapping(x, y, size) {
+    for (let f of placed) {
+        const dx = x - f.x;
+        const dy = y - f.y;
+        const distance = Math.sqrt(dx*dx + dy*dy);
+        if (distance < (size/2 + f.size/2 + 20)) return true;
+    }
+    return false;
+}
+
+for (let i = 0; i < flowerCount; i++) {
+
+    let size = 150 + Math.random()*100;
+    let x, y, attempts = 0;
+
+    do {
+        x = Math.random() * (window.innerWidth - size);
+        y = Math.random() * (window.innerHeight - size);
+        attempts++;
+        if (attempts > 300) break;
+    } while (isOverlapping(x, y, size));
+
+    placed.push({x, y, size});
+
+    const img = document.createElement("img");
+    img.src = flowerImages[Math.floor(Math.random()*flowerImages.length)];
+    img.className = "lotus";
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+    img.style.width = size + "px";
+    img.style.animationDelay = (Math.random()*1.5) + "s";
+
+    document.body.appendChild(img);
+}
+
+/* ================= BUTTON CLICK EVENT ================= */
+
+document.getElementById("enterBtn").addEventListener("click", function(){
+
+    document.querySelectorAll(".lotus").forEach(f => {
+        f.classList.add("fadeOut");
+    });
+
+    this.style.display = "none";
+
+    setTimeout(() => {
+
+        document.querySelectorAll(".lotus").forEach(f => f.remove());
+
+        const vineImages = ["vine1.png", "vine2.png"];
+        const vineCount = 5;
+
+        for (let i = 0; i < vineCount; i++) {
+
+            const vine = document.createElement("img");
+            vine.src = vineImages[Math.floor(Math.random()*vineImages.length)];
+            vine.className = "vine";
+
+            vine.style.left = (10 + i * 18) + "%";
+            vine.style.width = (200 + Math.random()*80) + "px";
+            vine.style.animation = `riseUp 3s ease forwards ${i * 0.4}s`;
+
+            document.body.appendChild(vine);
+        }
+
+        // Show text after vines finish
+        const totalAnimationTime = 3000 + (vineCount * 400);
+
+        setTimeout(() => {
+            document.getElementById("finalText").style.opacity = "1";
+        }, totalAnimationTime);
+
+    },1500);
+
+});
+</script>
+
+</body>
+</html>
