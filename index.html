@@ -43,8 +43,8 @@ body{
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    padding:22px 60px;
-    font-size:26px;
+    padding:24px 65px;
+    font-size:28px;
     font-weight:bold;
     border:none;
     border-radius:60px;
@@ -58,7 +58,7 @@ body{
 
 @keyframes pulse{
     0%{ transform:translate(-50%,-50%) scale(1); }
-    50%{ transform:translate(-50%,-50%) scale(1.08); }
+    50%{ transform:translate(-50%,-50%) scale(1.1); }
     100%{ transform:translate(-50%,-50%) scale(1); }
 }
 
@@ -66,13 +66,13 @@ body{
 
 .vine{
     position:absolute;
-    bottom:-650px;
+    bottom:-750px; /* fully hidden */
     opacity:0;
 }
 
 @keyframes riseUp{
     from{
-        bottom:-650px;
+        bottom:-750px;
         opacity:0;
     }
     to{
@@ -84,7 +84,7 @@ body{
 /* Bigger vines on mobile */
 @media (max-width:768px){
     .vine{
-        width:320px !important;
+        width:380px !important;
     }
 }
 
@@ -92,10 +92,10 @@ body{
 
 #finalText{
     position:fixed;
-    top:35%;
+    top:32%;
     left:50%;
     transform:translateX(-50%);
-    font-size:50px;
+    font-size:52px;
     font-weight:bold;
     text-align:center;
     color:white;
@@ -107,7 +107,7 @@ body{
 
 @media (max-width:768px){
     #finalText{
-        font-size:34px;
+        font-size:36px;
         width:90%;
     }
 }
@@ -184,7 +184,7 @@ document.getElementById("enterBtn").addEventListener("click", function(){
         document.querySelectorAll(".lotus").forEach(f => f.remove());
 
         const vineImages = ["vine1.png", "vine2.png"];
-        const vineCount = 5;
+        const vineCount = 3; // fewer but bigger
 
         for (let i = 0; i < vineCount; i++) {
 
@@ -192,15 +192,18 @@ document.getElementById("enterBtn").addEventListener("click", function(){
             vine.src = vineImages[Math.floor(Math.random()*vineImages.length)];
             vine.className = "vine";
 
-            vine.style.left = (8 + i * 18) + "%";
-            vine.style.width = (260 + Math.random()*120) + "px";
-            vine.style.animation = `riseUp 3s ease forwards ${i * 0.4}s`;
+            // Center cluster look
+            vine.style.left = (30 + i * 15) + "%";
+
+            // Much bigger size
+            vine.style.width = (350 + Math.random()*120) + "px";
+
+            vine.style.animation = `riseUp 3s ease forwards ${i * 0.6}s`;
 
             document.body.appendChild(vine);
         }
 
-        // Show final text after vines finish
-        const totalAnimationTime = 3000 + (vineCount * 400);
+        const totalAnimationTime = 3000 + (vineCount * 600);
 
         setTimeout(() => {
             document.getElementById("finalText").style.opacity = "1";
