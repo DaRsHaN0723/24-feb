@@ -10,6 +10,7 @@ body{
     height:100vh;
     overflow:hidden;
     background:linear-gradient(to top,#ffb6d9,#ffe6f2);
+    font-family: 'Georgia', serif;
 }
 
 /* ================= FLOWERS ================= */
@@ -27,7 +28,6 @@ body{
     100%{ transform:scale(1); opacity:1; }
 }
 
-/* Fade out animation */
 .fadeOut{
     animation:fadeAway 1.5s forwards;
 }
@@ -43,29 +43,49 @@ body{
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    padding:18px 45px;
-    font-size:20px;
+    padding:22px 60px;
+    font-size:26px;
     font-weight:bold;
     border:none;
-    border-radius:50px;
+    border-radius:60px;
     background:linear-gradient(45deg,#ff4fa3,#ff82c7);
     color:white;
     cursor:pointer;
-    box-shadow:0 10px 25px rgba(255,0,128,0.4);
+    box-shadow:0 15px 35px rgba(255,0,128,0.4);
     z-index:9999;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{ transform:translate(-50%,-50%) scale(1); }
+    50%{ transform:translate(-50%,-50%) scale(1.08); }
+    100%{ transform:translate(-50%,-50%) scale(1); }
 }
 
 /* ================= VINES ================= */
 
 .vine{
     position:absolute;
-    bottom:-400px;
+    bottom:-650px;
     opacity:0;
 }
 
 @keyframes riseUp{
-    from{ bottom:-400px; opacity:0; }
-    to{ bottom:0px; opacity:1; }
+    from{
+        bottom:-650px;
+        opacity:0;
+    }
+    to{
+        bottom:0;
+        opacity:1;
+    }
+}
+
+/* Bigger vines on mobile */
+@media (max-width:768px){
+    .vine{
+        width:320px !important;
+    }
 }
 
 /* ================= FINAL TEXT ================= */
@@ -75,13 +95,21 @@ body{
     top:35%;
     left:50%;
     transform:translateX(-50%);
-    font-size:48px;
+    font-size:50px;
     font-weight:bold;
+    text-align:center;
     color:white;
-    text-shadow:0 5px 20px rgba(0,0,0,0.25);
+    text-shadow:0 5px 25px rgba(0,0,0,0.3);
     opacity:0;
     transition:opacity 2s ease;
     z-index:9999;
+}
+
+@media (max-width:768px){
+    #finalText{
+        font-size:34px;
+        width:90%;
+    }
 }
 </style>
 </head>
@@ -89,7 +117,7 @@ body{
 <body>
 
 <button id="enterBtn">CLICK HERE 😋</button>
-<div id="finalText">Happy Birthday SHARANNYA </div>
+<div id="finalText">Happy Birthday SHARANNYA</div>
 
 <script>
 
@@ -164,14 +192,14 @@ document.getElementById("enterBtn").addEventListener("click", function(){
             vine.src = vineImages[Math.floor(Math.random()*vineImages.length)];
             vine.className = "vine";
 
-            vine.style.left = (10 + i * 18) + "%";
-            vine.style.width = (200 + Math.random()*80) + "px";
+            vine.style.left = (8 + i * 18) + "%";
+            vine.style.width = (260 + Math.random()*120) + "px";
             vine.style.animation = `riseUp 3s ease forwards ${i * 0.4}s`;
 
             document.body.appendChild(vine);
         }
 
-        // Show text after vines finish
+        // Show final text after vines finish
         const totalAnimationTime = 3000 + (vineCount * 400);
 
         setTimeout(() => {
