@@ -7,7 +7,7 @@
 <style>
 body{
     margin:0;
-    height:100vh;
+    min-height:100dvh; /* FIXED mobile vh issue */
     overflow:hidden;
     background:linear-gradient(to top,#ffb6d9,#ffe6f2);
     font-family: 'Georgia', serif;
@@ -62,21 +62,23 @@ body{
     100%{ transform:translate(-50%,-50%) scale(1); }
 }
 
-/* ================= VINES ================= */
+/* ================= VINES (FIXED VERSION) ================= */
 
 .vine{
     position:absolute;
-    bottom:-750px; /* fully hidden */
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%) translateY(120%);
     opacity:0;
 }
 
 @keyframes riseUp{
     from{
-        bottom:-750px;
+        transform:translateX(-50%) translateY(120%);
         opacity:0;
     }
     to{
-        bottom:0;
+        transform:translateX(-50%) translateY(0%);
         opacity:1;
     }
 }
@@ -184,7 +186,7 @@ document.getElementById("enterBtn").addEventListener("click", function(){
         document.querySelectorAll(".lotus").forEach(f => f.remove());
 
         const vineImages = ["vine1.png", "vine2.png"];
-        const vineCount = 3; // fewer but bigger
+        const vineCount = 3;
 
         for (let i = 0; i < vineCount; i++) {
 
@@ -192,12 +194,8 @@ document.getElementById("enterBtn").addEventListener("click", function(){
             vine.src = vineImages[Math.floor(Math.random()*vineImages.length)];
             vine.className = "vine";
 
-            // Center cluster look
-            vine.style.left = (30 + i * 15) + "%";
-
-            // Much bigger size
+            vine.style.left = (40 + i * 10) + "%";
             vine.style.width = (350 + Math.random()*120) + "px";
-
             vine.style.animation = `riseUp 3s ease forwards ${i * 0.6}s`;
 
             document.body.appendChild(vine);
