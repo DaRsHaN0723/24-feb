@@ -186,20 +186,24 @@ document.getElementById("enterBtn").addEventListener("click", function(){
         document.querySelectorAll(".lotus").forEach(f => f.remove());
 
         const vineImages = ["vine1.png", "vine2.png"];
-        const vineCount = 3;
+        const vineCount = 6; // more vines to fill bottom
 
         for (let i = 0; i < vineCount; i++) {
 
-            const vine = document.createElement("img");
-            vine.src = vineImages[Math.floor(Math.random()*vineImages.length)];
-            vine.className = "vine";
+    const vine = document.createElement("img");
+    vine.src = vineImages[Math.floor(Math.random()*vineImages.length)];
+    vine.className = "vine";
 
-            vine.style.left = (40 + i * 10) + "%";
-            vine.style.width = (350 + Math.random()*120) + "px";
-            vine.style.animation = `riseUp 3s ease forwards ${i * 0.6}s`;
+    // Spread evenly across screen
+    vine.style.left = (i * (100 / vineCount)) + "%";
 
-            document.body.appendChild(vine);
-        }
+    // Bigger dramatic size
+    vine.style.width = (320 + Math.random()*100) + "px";
+
+    vine.style.animation = `riseUp 3s ease forwards ${i * 0.3}s`;
+
+    document.body.appendChild(vine);
+}
 
         const totalAnimationTime = 3000 + (vineCount * 600);
 
@@ -214,3 +218,4 @@ document.getElementById("enterBtn").addEventListener("click", function(){
 
 </body>
 </html>
+
